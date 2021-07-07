@@ -578,6 +578,7 @@ class FlutterSoundRecorder implements FlutterSoundRecorderCallback {
     int numChannels = 1,
     int bitRate = 16000,
     AudioSource audioSource = AudioSource.defaultSource,
+    int? bufferSize,
   }) async {
     print('FS:---> startRecorder ');
     await _lock.synchronized(() async {
@@ -602,6 +603,7 @@ class FlutterSoundRecorder implements FlutterSoundRecorderCallback {
     int numChannels = 1,
     int bitRate = 16000,
     AudioSource audioSource = AudioSource.defaultSource,
+    int? bufferSize,
   }) async {
     print('FS:---> _startRecorder.');
     await _waitOpen();

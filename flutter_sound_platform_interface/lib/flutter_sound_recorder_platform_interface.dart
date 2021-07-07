@@ -1,5 +1,3 @@
-
-
 /*
  * Copyright 2018, 2019, 2020 Dooboolab.
  *
@@ -31,8 +29,6 @@ import 'dart:io';
 import 'dart:io' show Platform;
 import 'dart:typed_data' show Uint8List;
 
-
-
 enum RecorderState {
   isStopped,
   isPaused,
@@ -56,11 +52,9 @@ enum AudioSource {
   lineIn,
 }
 
-
-abstract class FlutterSoundRecorderCallback
-{
+abstract class FlutterSoundRecorderCallback {
   void updateRecorderProgress({int? duration, double? dbPeakLevel});
-  void recordingData({Uint8List? data} );
+  void recordingData({Uint8List? data});
   void startRecorderCompleted(int? state, bool? success);
   void pauseRecorderCompleted(int? state, bool? success);
   void resumeRecorderCompleted(int? state, bool? success);
@@ -68,7 +62,6 @@ abstract class FlutterSoundRecorderCallback
   void openRecorderCompleted(int? state, bool? success);
   void closeRecorderCompleted(int? state, bool? success);
 }
-
 
 /// The interface that implementations of url_launcher must implement.
 ///
@@ -78,13 +71,13 @@ abstract class FlutterSoundRecorderCallback
 /// platform implementations that `implements` this interface will be broken by newly added
 /// [FlutterSoundPlatform] methods.
 abstract class FlutterSoundRecorderPlatform extends PlatformInterface {
-
   /// Constructs a UrlLauncherPlatform.
   FlutterSoundRecorderPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
-  static FlutterSoundRecorderPlatform _instance = MethodChannelFlutterSoundRecorder();
+  static FlutterSoundRecorderPlatform _instance =
+      MethodChannelFlutterSoundRecorder();
 
   /// The default instance of [FlutterSoundRecorderPlatform] to use.
   ///
@@ -98,17 +91,12 @@ abstract class FlutterSoundRecorderPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-
-
   List<FlutterSoundRecorderCallback?> _slots = [];
 
   @override
-  int findSession(FlutterSoundRecorderCallback aSession)
-  {
-    for (var i = 0; i < _slots.length; ++i)
-    {
-      if (_slots[i] == aSession)
-      {
+  int findSession(FlutterSoundRecorderCallback aSession) {
+    for (var i = 0; i < _slots.length; ++i) {
+      if (_slots[i] == aSession) {
         return i;
       }
     }
@@ -116,14 +104,11 @@ abstract class FlutterSoundRecorderPlatform extends PlatformInterface {
   }
 
   @override
-  void openSession(FlutterSoundRecorderCallback aSession)
-  {
+  void openSession(FlutterSoundRecorderCallback aSession) {
     assert(findSession(aSession) == -1);
 
-    for (var i = 0; i < _slots.length; ++i)
-    {
-      if (_slots[i] == null)
-      {
+    for (var i = 0; i < _slots.length; ++i) {
+      if (_slots[i] == null) {
         _slots[i] = aSession;
         return;
       }
@@ -132,87 +117,100 @@ abstract class FlutterSoundRecorderPlatform extends PlatformInterface {
   }
 
   @override
-  void closeSession(FlutterSoundRecorderCallback aSession)
-  {
+  void closeSession(FlutterSoundRecorderCallback aSession) {
     _slots[findSession(aSession)] = null;
   }
 
-  FlutterSoundRecorderCallback? getSession(int slotno)
-  {
+  FlutterSoundRecorderCallback? getSession(int slotno) {
     return _slots[slotno];
   }
 
-
-
-  Future<void>?   resetPlugin(FlutterSoundRecorderCallback callback,)
-  {
+  Future<void>? resetPlugin(
+    FlutterSoundRecorderCallback callback,
+  ) {
     throw UnimplementedError('resetPlugin() has not been implemented.');
   }
 
-
-  Future<void> openRecorder(FlutterSoundRecorderCallback callback, {AudioFocus? focus, SessionCategory? category, SessionMode? mode, int? audioFlags, AudioDevice? device})
-  {
+  Future<void> openRecorder(FlutterSoundRecorderCallback callback,
+      {AudioFocus? focus,
+      SessionCategory? category,
+      SessionMode? mode,
+      int? audioFlags,
+      AudioDevice? device}) {
     throw UnimplementedError('openRecorder() has not been implemented.');
   }
 
-  Future<void> closeRecorder(FlutterSoundRecorderCallback callback, )
-  {
+  Future<void> closeRecorder(
+    FlutterSoundRecorderCallback callback,
+  ) {
     throw UnimplementedError('closeRecorder() has not been implemented.');
   }
 
-  Future<void> setAudioFocus(FlutterSoundRecorderCallback callback, {AudioFocus? focus, SessionCategory? category, SessionMode? mode, int? audioFlags, AudioDevice? device,} )
-  {
+  Future<void> setAudioFocus(
+    FlutterSoundRecorderCallback callback, {
+    AudioFocus? focus,
+    SessionCategory? category,
+    SessionMode? mode,
+    int? audioFlags,
+    AudioDevice? device,
+  }) {
     throw UnimplementedError('setAudioFocus() has not been implemented.');
   }
 
-  Future<bool> isEncoderSupported(FlutterSoundRecorderCallback callback, {required Codec codec ,})
-  {
+  Future<bool> isEncoderSupported(
+    FlutterSoundRecorderCallback callback, {
+    required Codec codec,
+  }) {
     throw UnimplementedError('isEncoderSupported() has not been implemented.');
   }
 
-  Future<void> setSubscriptionDuration(FlutterSoundRecorderCallback callback, { Duration? duration,})
-  {
-    throw UnimplementedError('setSubscriptionDuration() has not been implemented.');
+  Future<void> setSubscriptionDuration(
+    FlutterSoundRecorderCallback callback, {
+    Duration? duration,
+  }) {
+    throw UnimplementedError(
+        'setSubscriptionDuration() has not been implemented.');
   }
 
-  Future<void> startRecorder(FlutterSoundRecorderCallback callback,
-  {
-  String? path,
-  int? sampleRate,
-  int? numChannels,
-  int? bitRate,
-  Codec? codec,
-  bool? toStream,
-  AudioSource? audioSource,
-  })
-  {
+  Future<void> startRecorder(
+    FlutterSoundRecorderCallback callback, {
+    String? path,
+    int? sampleRate,
+    int? numChannels,
+    int? bitRate,
+    Codec? codec,
+    bool? toStream,
+    AudioSource? audioSource,
+    int? bufferSize,
+  }) {
     throw UnimplementedError('startRecorder() has not been implemented.');
   }
 
-  Future<void> stopRecorder(FlutterSoundRecorderCallback callback, )
-  {
+  Future<void> stopRecorder(
+    FlutterSoundRecorderCallback callback,
+  ) {
     throw UnimplementedError('stopRecorder() has not been implemented.');
   }
 
-  Future<void> pauseRecorder(FlutterSoundRecorderCallback callback, )
-  {
+  Future<void> pauseRecorder(
+    FlutterSoundRecorderCallback callback,
+  ) {
     throw UnimplementedError('pauseRecorder() has not been implemented.');
   }
 
-  Future<void> resumeRecorder(FlutterSoundRecorderCallback callback, )
-  {
+  Future<void> resumeRecorder(
+    FlutterSoundRecorderCallback callback,
+  ) {
     throw UnimplementedError('resumeRecorder() has not been implemented.');
   }
 
-  Future<bool?> deleteRecord(FlutterSoundRecorderCallback callback, String path)
-  {
+  Future<bool?> deleteRecord(
+      FlutterSoundRecorderCallback callback, String path) {
     throw UnimplementedError('deleteRecord() has not been implemented.');
   }
 
-  Future<String?> getRecordURL(FlutterSoundRecorderCallback callback, String path )
-  {
+  Future<String?> getRecordURL(
+      FlutterSoundRecorderCallback callback, String path) {
     throw UnimplementedError('getRecordURL() has not been implemented.');
   }
-
-
 }

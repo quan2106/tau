@@ -253,6 +253,7 @@ public class FlutterSoundRecorder extends FlutterSoundSession implements FlautoR
 			t_CODEC               		codec               = t_CODEC.values()[ _codec ];
 			final String                     path               = call.argument ( "path" );
 			int                             _audioSource        = call.argument ( "audioSource" );
+			int                             _bufferSize         = call.argument ( "bufferSize" );
 			t_AUDIO_SOURCE                  audioSource         = t_AUDIO_SOURCE.values()[_audioSource];
 			int 				toStream	    = call.argument ( "toStream");
 
